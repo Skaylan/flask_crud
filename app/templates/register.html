@@ -7,28 +7,45 @@
 {% block main %}
 
 <main>
-    <div class="form">
-        <form action="{{ url_for('register') }}" method="POST">
-            {{ form.csrf_token }}
-            {{ form.hidden_tag() }}
-            {{ form.name }}
-            {{form.username}}
-            {{ form.email }}
-            {{ form.password }}
-            {{ form.confirm_password }}
-            {{ form.submit }}
-
-            {% with msgs = get_flashed_messages(with_categories=True) %}
-                {% if msgs %}
-                    {% for category, msg in msgs %}
-                        <div id="popup">
-                            <p class="{{ category }}" >{{msg}}</p>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </form>
-    </div>
+    <div class="container py-5 h-100 ">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+            <div class="card shadow-2-strong shadow p-3 mb-5 bg-white rounded" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <h3 class="mb-5">Register</h3>
+                    <form action="{{ url_for('register') }}" method="POST">
+                        {{form.csrf_token}}
+                      <div class="form-outline mb-4">
+                          {{form.name(class='form-control form-control-lg ')}}
+                      </div>
+                      <div class="form-outline mb-4">
+                          {{form.username(class='form-control form-control-lg ')}}
+                      </div>
+                      <div class="form-outline mb-4">
+                          {{form.email(class='form-control form-control-lg ')}}
+                      </div>
+                      <div class="form-outline mb-4">
+                          {{form.password(class='form-control form-control-lg ')}}
+                      </div>
+                      <div class="form-outline mb-4">
+                          {{form.confirm_password(class='form-control form-control-lg ')}}
+                      </div>
+                      {{form.submit(class='btn btn-primary btn-md btn-block')}}
+                        {% with msgs = get_flashed_messages(with_categories=True) %}
+                        {% if msgs %}
+                            {% for category, msg in msgs %}
+                             <div id="popup">
+                              <p class="{{ category }}" >{{msg}}</p>
+                             </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 </main>
 
 <script src="{{ url_for('static', filename='scripts/register.js') }}"></script>
