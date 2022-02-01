@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Pagina do Usuario{% endblock %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/user_page.css') }}"> {% endblock %}
+
+
+{% block nav %}
+<li class="nav-item active">
+  <a href="{{ url_for('logout') }}" class="nav-link active">Logout</a>
+</li>
+{% endblock %}
+
+
+{% block main %}
+<main class='d-row justify-content-between'>
+  <!-- Button trigger modal -->
+    <div class="container">
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Adicionar
+        </button>
+    </div>
+    <br>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('user_page') }}" method="POST">
+            {{form.csrf_token()}}
+            {{form.title(class='form-control')}}
+            <br>
+            {{form.description(class='form-control')}}
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% for item in items %}
+    <div class="container shadow p-3 mb-5 bg-body rounded">
+        <div class="card">
+            <div class="card-body">
+              <h2>{{item.title}}</h2>
+              <hr>
+              <p>{{item.description}}</p>
+              <hr>
+              {% if item.completed == False %}
+              <form action="{{ url_for('complete_task') }}" method="POST">
+                <input type="hidden" name="complete_task_id" value="{{item.id}}">
+                <input type="hidden" name="complete_value" value="{{item.completed}}">
+                <button class="btn btn-success" type="submit">Completar</button>
+              </form>
+              {% else %}
+                <p>Task completa</p>
+                {% set tc = True%}
+              {% endif %}
+
+              <hr>
+              <p>criado em: {{item.created_at.strftime("%d/%m/%y")}}</p>
+            </div>
+            <div class="container">
+                <form onsubmit="return confirm('Tem certeza que deseja deletar este item?');" action="{{ url_for('delete_item') }}" method="POST">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button class="btn btn-danger" type="submit">Deletar</button>
+                    <button type="button" class="btn btn-primary" {% if tc == True %}disabled{% endif %} data-bs-toggle="modal" data-bs-target="#exampleModalEdit{{item.id}}">
+                        Editar
+                    </button>
+                  </form>
+                  <br>
+                </div>
+            <!-- Button trigger modal -->
+            <div class="container">
+                
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalEdit{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <form action="{{ url_for('edit_item') }}" method="POST">
+                        {{form.csrf_token()}}
+                        <!-- {{form.title(class='form-control', value=item.title)}} -->
+                        <input class='form-control' type="text" name="title" value="{{item.title}}">
+                        <input type="hidden" name='item_id' value={{item.id}}>
+                        <br>
+                        <textarea class="form-control" id='textarea' required name="description" autocomplete="off" >{{item.description}}</textarea>
+                        <div class="modal-footer"> 
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+</main>
+{% endblock %}

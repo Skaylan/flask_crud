@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> {% endblock %}
+{% set current_page = 'login' %}
+
+{% block main %}
+
+
+<main>
+    <div class="container py-5 h-100 ">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+            <div class="card shadow-2-strong shadow p-3 mb-5 bg-white rounded" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <h3 class="mb-5">Acessar</h3>
+                    <form action="{{ url_for('login') }}" method="POST">
+                        {{form.csrf_token}}
+                      <div class="form-outline mb-4">
+                          {{form.username(class='form-control form-control-lg ')}}
+                      </div>
+                      <div class="form-outline mb-4">
+                          {{form.password(class='form-control form-control-lg ')}}
+                      </div>
+                      {{form.submit(class='btn btn-primary btn-md btn-block')}}
+                      {% with msgs = get_flashed_messages() %}
+                          {% if msgs %}
+                              {% for msg in msgs %}
+                                  <p style="color: red;" >{{msg}}</p>
+                              {% endfor %}
+                          {% endif %}
+                      {% endwith %}
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+
+{% endblock %}
