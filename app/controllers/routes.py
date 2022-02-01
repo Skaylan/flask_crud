@@ -100,7 +100,6 @@ def user_page():
             
     # items = Item.query.filter_by(owner_id=session['id']).all().order_by(Item.posted_at.desc())
     items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
-    # items = []
     return render_template('user_page.html', form=form, items=items)
 
 
@@ -155,5 +154,4 @@ def complete_task():
             except Exception as error:
                 print(error.__cause__)
         
-        print('aqui:::::::>>>>>>>', id)
     return redirect(url_for('user_page'))
