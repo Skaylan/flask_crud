@@ -14,7 +14,7 @@
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a href="#" class="navbar-brand mb-0 h1">Logo</a>
+            <a href="{{ url_for('index') }}" class="navbar-brand mb-0 h1">Logo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mydropdown" aria-controls="mydropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,9 +41,9 @@
     {% endblock %}
 
 
-    <footer class="text-center text-white" style="background-color: #f1f1f1;">
-        <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-          Desenvolvido por:
+    <footer class="text-center text-white">
+        <div class="d-flex justify-content-center align-items-center text-center text-dark p-3" style="background-color: #f1efef;">
+          <div>Developed by: </div>
           <a class="text-dark" target="blank_" href="https://linkedin.com/in/lucas-gomes-oliveira">Lucas Oliveira</a>
         </div>
     </footer>

@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     if 'user' in session:
         return redirect(url_for('user_page'))
@@ -77,8 +78,9 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/user_page', methods=['GET', 'POST'])
-def user_page():
+@app.route('/user_page', defaults={'op': None}, methods=['GET', 'POST'])
+@app.route('/user_page/<int:op>', methods=['GET', 'POST'])
+def user_page(op):
     if 'user' not in session:
         return redirect(url_for('login'))
     
@@ -99,8 +101,16 @@ def user_page():
                 print(error.__class__)
             
     # items = Item.query.filter_by(owner_id=session['id']).all().order_by(Item.posted_at.desc())
-    items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
-    return render_template('user_page.html', form=form, items=items)
+    if op:
+        if op == 1:
+            items = Item.query.filter_by(owner_id=session['id'], completed=True).order_by(Item.created_at.desc()).all()
+        if op == 2:
+            items = Item.query.filter_by(owner_id=session['id'], completed=False).order_by(Item.created_at.desc()).all()
+        if op == 0:
+            items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
+    else:
+        items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
+    return render_template('user_page.html', form=form, items=items, op=op)
 
 
 
@@ -155,3 +165,12 @@ def complete_task():
                 print(error.__cause__)
         
     return redirect(url_for('user_page'))
+
+
+@app.route('/filter', methods=['GET', 'POST'])
+def filter():
+    if request.method == 'POST':
+        op = request.form['filter']
+        return redirect(url_for('user_page', op=op))
+    return redirect(url_for('user_page'))
+    

@@ -5,6 +5,6 @@ from wtforms.validators import DataRequired
 
 
 class AddItemForm(FlaskForm):
-    title = StringField('Título', validators=[DataRequired()], render_kw={'placeholder': 'Título', 'autocomplete': 'off'})
-    description = TextAreaField('Descrição', validators=[DataRequired()], render_kw={'placeholder': 'Descrição', 'autocomplete': 'off'})
-    submit = SubmitField('Adicionar', render_kw={'class': 'button'})    
+    title = StringField('Title', validators=[DataRequired()], render_kw={'placeholder': 'Title', 'autocomplete': 'off'})
+    description = TextAreaField('Description', validators=[DataRequired()], render_kw={'placeholder': 'Description', 'autocomplete': 'off'})
+    submit = SubmitField('Add', render_kw={'class': 'button'})    
