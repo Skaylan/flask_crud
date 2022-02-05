@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Pagina de registro{% endblock %}
+{% block title %}Register Page{% endblock %}
 
 {% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">{% endblock %}
 {% set current_page = 'register' %}
@@ -32,13 +32,13 @@
                       </div>
                       {{form.submit(class='btn btn-primary btn-md btn-block')}}
                         {% with msgs = get_flashed_messages(with_categories=True) %}
-                        {% if msgs %}
-                            {% for category, msg in msgs %}
-                             <div id="popup">
-                              <p class="{{ category }}" >{{msg}}</p>
-                             </div>
-                            {% endfor %}
-                        {% endif %}
+                            {% if msgs %}
+                                {% for category, msg in msgs %}
+                                    <div id="popup">
+                                        <p class="{{ category }}" >{{msg}}</p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         {% endwith %}
                   </div>
               </form>
@@ -48,5 +48,4 @@
       </div>
 </main>
 
-<script src="{{ url_for('static', filename='scripts/register.js') }}"></script>
 {% endblock %}

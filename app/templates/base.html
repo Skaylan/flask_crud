@@ -14,21 +14,21 @@
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a href="{{ url_for('index') }}" class="navbar-brand mb-0 h1">Logo</a>
+            <a href="{{ url_for('index') }}" class="navbar-brand mb-0 h1 ps-4">Logo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mydropdown" aria-controls="mydropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mydropdown">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ps-3">
                     {% block nav%}
                     <li class="nav-item active">
-                        <a href="{{ url_for('index') }}" class="nav-link active">Home</a>
+                        <a href="{{ url_for('index') }}" class="nav-link active {{ 'selected' if current_page == 'home' else '' }}" >Home</a>
                     </li>
                     <li class="nav-item active">
-                        <a href="{{ url_for('register') }}" class="nav-link active">Register</a>
+                        <a href="{{ url_for('register') }}" class="nav-link active {{ 'selected' if current_page == 'register' else '' }}">Register</a>
                     </li>
                     <li class="nav-item active">
-                        <a href="{{ url_for('login') }}" class="nav-link active">Login</a>
+                        <a href="{{ url_for('login') }}" class="nav-link active {{ 'selected' if current_page == 'login' else '' }}">Login</a>
                     </li>
                     {% endblock %}
                 </ul>
@@ -47,5 +47,6 @@
           <a class="text-dark" target="blank_" href="https://linkedin.com/in/lucas-gomes-oliveira">Lucas Oliveira</a>
         </div>
     </footer>
+    <script src="{{ url_for('static', filename='scripts/popup.js') }}"></script>
 </body>
 </html>

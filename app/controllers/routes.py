@@ -95,7 +95,7 @@ def user_page(op):
                 db.session.add(new_item)
                 db.session.commit()
                 db.session.close()
-                flash('Adicionado com Sucesso!', category='success')
+                flash('Task Successfully Added!', category='success')
                 return redirect(url_for('user_page'))
             except Exception as error:
                 print(error.__class__)
@@ -124,6 +124,7 @@ def delete_item():
             db.session.delete(delete)
             db.session.commit()
             db.session.close()
+            flash('Task successfully deleted!', category='success')
         except Exception as error:
             print(error.__class__)
             

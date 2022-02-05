@@ -7,6 +7,11 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.selected {
+    background: #e7e7e7;
+    border-radius: 5px;
+}
+
 input#submit {
     width: 200px;
 }

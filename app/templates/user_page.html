@@ -17,7 +17,7 @@
     <div class="container d-row options">
         <br>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            New Task
+            New
         </button>
 
         <form action="{{ url_for('filter') }}" method="POST">
@@ -54,14 +54,14 @@
     </div>
   </div>
 
-
+  {% if items %}
   {% for item in items %}
     <div class="container shadow p-3 mb-5 bg-body rounded">
         <div class="card">
             <div class="card-body">
-              <h2>{{item.title}}</h2>
+              <h2>{{item.title|striptags}}</h2>
               <hr>
-              <p>{{item.description}}</p>
+              <p>{{item.description|striptags}}</p>
               <hr>
               {% if item.completed == False %}
               <form action="{{ url_for('complete_task') }}" method="POST">
@@ -118,6 +118,20 @@
         </div>
     </div>
     {% endfor %}
-    
+    {% else %}
+    <div>
+      <p>No Tasks</p>
+    </div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=True)%}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="popup" id="popup">
+            <p class="{{ category }}" >{{msg}}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 </main>
+
 {% endblock %}
