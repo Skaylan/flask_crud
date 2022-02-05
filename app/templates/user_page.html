@@ -21,7 +21,7 @@
         </button>
 
         <form action="{{ url_for('filter') }}" method="POST">
-          <select class='form-select' name="filter" id="filter" onchange='this.form.submit()'>
+          <select style='cursor: pointer;' class='form-select' name="filter" id="filter" onchange='this.form.submit()'>
             <option {% if op == 0 %}selected{% endif %} value="0">No Filter</option>
             <option {% if op == 1 %}selected{% endif %} value='1' >Completed</option>
             <option {% if op == 2 %}selected{% endif %} value='2' >Not Completed</option>
@@ -119,9 +119,23 @@
     </div>
     {% endfor %}
     {% else %}
-    <div>
-      <p>No Tasks</p>
-    </div>
+      {% if op == 1 %}
+        <div>
+          <p>No Completed Tasks</p>
+        </div>
+      {% elif op == 2 %}
+        <div>
+          <p>No Uncompleted Tasks</p>
+        </div>
+      {% elif op == 0 %}
+        <div>
+          <p>No Tasks</p>
+        </div>
+      {% else %}
+        <div>
+          <p>No Tasks</p>
+        </div>
+      {% endif %}
     {% endif %}
     {% with messages = get_flashed_messages(with_categories=True)%}
       {% if messages %}
