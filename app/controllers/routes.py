@@ -78,12 +78,11 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/user_page', defaults={'op': None}, methods=['GET', 'POST'])
-@app.route('/user_page/<int:op>', methods=['GET', 'POST'])
-def user_page(op):
+@app.route('/user_page', methods=['GET', 'POST'])
+def user_page():
     if 'user' not in session:
         return redirect(url_for('login'))
-    
+
     form = AddItemForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -99,18 +98,19 @@ def user_page(op):
                 return redirect(url_for('user_page'))
             except Exception as error:
                 print(error.__class__)
-            
-    # items = Item.query.filter_by(owner_id=session['id']).all().order_by(Item.posted_at.desc())
-    if op:
-        if op == 1:
+             
+    filter = request.args.get('filter')    
+    if filter:
+        if filter == '1':
             items = Item.query.filter_by(owner_id=session['id'], completed=True).order_by(Item.created_at.desc()).all()
-        if op == 2:
+        if filter == '2':
             items = Item.query.filter_by(owner_id=session['id'], completed=False).order_by(Item.created_at.desc()).all()
-        if op == 0:
+        if filter == '0':
             items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
-    else:
+    else:       
         items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
-    return render_template('user_page.html', form=form, items=items, op=op)
+        
+    return render_template('user_page.html', form=form, items=items, op=filter)
 
 
 
@@ -165,13 +165,5 @@ def complete_task():
             except Exception as error:
                 print(error.__cause__)
         
-    return redirect(url_for('user_page'))
-
-
-@app.route('/filter', methods=['GET', 'POST'])
-def filter():
-    if request.method == 'POST':
-        op = request.form['filter']
-        return redirect(url_for('user_page', op=op))
     return redirect(url_for('user_page'))
     

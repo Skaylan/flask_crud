@@ -4,17 +4,16 @@
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/user_page.css') }}"> {% endblock %}
 
-
 {% block nav %}
-  <li class="nav-item active">
-    <a href="{{ url_for('user_page') }}" class="nav-link active">Tasks</a>
-  </li>
-  <li class="nav-item active">
-    <a href="#" class="nav-link active">Profile</a>
-  </li>
-  <li class="nav-item active">
-    <a href="{{ url_for('logout') }}" class="nav-link active">Logout</a>
-  </li>
+<li class="nav-item active">
+  <a href="{{ url_for('user_page') }}" class="nav-link active">Tasks</a>
+</li>
+<li class="nav-item active">
+  <a href="#" class="nav-link active">Profile</a>
+</li>
+<li class="nav-item active">
+  <a href="{{ url_for('logout') }}" class="nav-link active">Logout</a>
+</li>
 {% endblock %}
 
 
@@ -22,19 +21,23 @@
 <main class='d-row justify-content-between'>
   <!-- Button trigger modal -->
   <div class="container d-row options">
-    <br>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      New
-    </button>
-
-    <form action="{{ url_for('filter') }}" method="POST">
-      <select style='cursor: pointer;' class='form-select' name="filter" id="filter" onchange='this.form.submit()'>
-        <option {% if op==0 %}selected{% endif %} value="0">No Filter</option>
-        <option {% if op==1 %}selected{% endif %} value='1'>Completed</option>
-        <option {% if op==2 %}selected{% endif %} value='2'>Not Completed</option>
-      </select>
-    </form>
+    <div class="container d-row options">
+      <br>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        New
+      </button>
+      
+      <form action="{{ url_for('user_page') }}" method="GET">
+        <select style='cursor: pointer;' class='form-select' name="filter" id="filter" onchange='this.form.submit()'>
+          <option {% if op=='0' %}selected{% endif %} value="0">No Filter</option>
+          <option {% if op=='1' %}selected{% endif %} value='1'>Completed</option>
+          <option {% if op=='2' %}selected{% endif %} value='2'>Not Completed</option>
+        </select>
+      </form>
+    </div>
   </div>
+
+  
   <br>
 
   <!-- Modal -->
@@ -60,7 +63,7 @@
       </div>
     </div>
   </div>
-
+  
   {% if items %}
   {% for item in items %}
   <div class="container shadow p-3 mb-5 bg-body rounded">
@@ -80,15 +83,14 @@
         <p>Task completed</p>
         {% set tc = True%}
         {% endif %}
-
+        
         <hr>
         <p>created at: {{item.created_at.strftime("%d/%m/%y")}}</p>
       </div>
       <div class="container">
-        <form onsubmit="return confirm('Are you sure you want to delete this task?');"
-          action="{{ url_for('delete_item') }}" method="POST">
+        <form id="task-form" action="{{ url_for('delete_item') }}" method="POST">
           <input type="hidden" name="item_id" value="{{ item.id }}">
-          <button class="btn btn-danger" type="submit">Delete</button>
+          <button class="btn btn-danger" type="button" onclick="submitFormDelete()">Delete</button>
           <button type="button" class="btn btn-primary" {% if tc==True %}disabled{% endif %} data-bs-toggle="modal"
             data-bs-target="#exampleModalEdit{{item.id}}">
             Edit
@@ -159,4 +161,5 @@
   {% endwith %}
 </main>
 
+<script src="{{ url_for('static', filename='scripts/user_page.js') }}"></script>
 {% endblock %}
