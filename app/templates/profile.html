@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Profile Page{% endblock %}
+{% set current_page = 'profile' %}
+
+{% block nav %}
+<li class="nav-item active">
+    <a href="{{ url_for('user_page') }}" class="nav-link active">Tasks</a>
+</li>
+<li class="nav-item active">
+    <a href="{{ url_for('profile') }}" class="nav-link active {{ 'selected' if current_page == 'profile' else '' }}">Profile</a>
+</li>
+<li class="nav-item active">
+    <a href="{{ url_for('logout') }}" class="nav-link active">Logout</a>
+</li>
+{% endblock %}
+
+{% block main %}
+
+    <main class="d-flex d-column justify-content-center">
+        <div class="container bg-primary">
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}User Page{% endblock %}
 
+{% set current_page = 'user_page' %}
+
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/user_page.css') }}"> {% endblock %}
 
 {% block nav %}
 <li class="nav-item active">
-  <a href="{{ url_for('user_page') }}" class="nav-link active">Tasks</a>
+  <a href="{{ url_for('user_page') }}" class="nav-link active {{ 'selected' if current_page == 'user_page' else '' }}">Tasks</a>
 </li>
 <li class="nav-item active">
-  <a href="#" class="nav-link active">Profile</a>
+  <a href="{{ url_for('profile') }}" class="nav-link active">Profile</a>
 </li>
 <li class="nav-item active">
   <a href="{{ url_for('logout') }}" class="nav-link active">Logout</a>
@@ -26,7 +28,7 @@
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         New
       </button>
-      
+
       <form action="{{ url_for('user_page') }}" method="GET">
         <select style='cursor: pointer;' class='form-select' name="filter" id="filter" onchange='this.form.submit()'>
           <option {% if op=='0' %}selected{% endif %} value="0">No Filter</option>
@@ -37,7 +39,7 @@
     </div>
   </div>
 
-  
+
   <br>
 
   <!-- Modal -->
@@ -63,7 +65,7 @@
       </div>
     </div>
   </div>
-  
+
   {% if items %}
   {% for item in items %}
   <div class="container shadow p-3 mb-5 bg-body rounded">
@@ -83,7 +85,7 @@
         <p>Task completed</p>
         {% set tc = True%}
         {% endif %}
-        
+
         <hr>
         <p>created at: {{item.created_at.strftime("%d/%m/%y")}}</p>
       </div>

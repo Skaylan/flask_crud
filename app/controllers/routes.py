@@ -10,11 +10,12 @@ from app.controllers.config import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'user' in session:
         return redirect(url_for('user_page'))
+        
     return render_template('index.html')
 
 
@@ -111,6 +112,14 @@ def user_page():
         items = Item.query.filter_by(owner_id=session['id']).order_by(Item.created_at.desc()).all()
         
     return render_template('user_page.html', form=form, items=items, op=filter)
+
+
+@app.route('/user_page/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user' not in session:
+        return redirect(url_for('index'))
+
+    return render_template('profile.html')
 
 
 
