@@ -1,4 +1,5 @@
 form = document.querySelector('#task-form');
+const deleteButton = document.querySelector("#deleteButton")
 
 const submitFormDelete = () => {
     const value = confirm('Are you sure you want to delete this task?');
@@ -9,3 +10,7 @@ const submitFormDelete = () => {
         //
     }
 }
+
+deleteButton.addEventListener('click', () => {
+    submitFormDelete()
+})
