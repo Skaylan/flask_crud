@@ -32,6 +32,7 @@ def register():
                     db.session.commit()
                     db.session.close()
                     flash('Usuario criado com sucesso!', category='success')
+
                 except Exception as error:
                     print(error.__cause__)
                     if str(error.__cause__) == 'UNIQUE constraint failed: user.username':
@@ -41,6 +42,11 @@ def register():
                         
             else:
                 flash("Senhas não coincidem!", category='error')
+            
+            user = User.query.filter_by(username=form.username.data.lower()).first()
+            session['user'] = user.username
+            session['id'] = user.id
+            return redirect(url_for('user_page'))
     
     return render_template('register.html', form=form)
 
