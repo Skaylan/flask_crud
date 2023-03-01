@@ -1,13 +1,13 @@
-from flask import render_template, request, redirect, flash, session, url_for
 from app import app
-from app.models.forms.register_form import RegisterForm
-from app.models.forms.login_form import LoginForm
-from app.models.forms.add_item_form import AddItemForm
-from app.models.tables.user import User
-from app.models.tables.item import Item
 from app.models.db_config import *
 from app.controllers.config import *
+from app.models.tables.user import User
+from app.models.tables.item import Item
+from app.models.forms.login_form import LoginForm
+from app.models.forms.add_item_form import AddItemForm
+from app.models.forms.register_form import RegisterForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import render_template, request, redirect, flash, session, url_for
 
 
 @app.route('/', methods=['GET', 'POST'])
