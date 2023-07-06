@@ -10,4 +10,4 @@ hideDiv = () => {
 
 showDiv();
 
-setTimeout("hideDiv()", 1500);
+setTimeout("hideDiv()", 2500);

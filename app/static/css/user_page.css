@@ -14,7 +14,7 @@ main {
 }
 
 .popup{
-    width: 300px;
+    width: auto;
     height: 30px;
     display: flex;
     flex-direction: column;

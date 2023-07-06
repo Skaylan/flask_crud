@@ -7,7 +7,7 @@ from app.models.forms.login_form import LoginForm
 from app.models.forms.add_item_form import AddItemForm
 from app.models.forms.register_form import RegisterForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import render_template, request, redirect, flash, session, url_for
+from flask import render_template, request, redirect, flash, session, url_for, jsonify
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -105,7 +105,7 @@ def user_page():
                 return redirect(url_for('user_page'))
             except Exception as error:
                 print(error.__class__)
-             
+
     filter = request.args.get('filter')    
     if filter:
         if filter == '1':
@@ -155,6 +155,11 @@ def edit_item():
         description = request.form['description']
         
         item = Item.query.filter_by(id=id).first()
+        if item.completed:
+            flash(f'You can not edit a already completed task!', category='error')
+            return redirect(url_for('user_page'))
+            
+        
         item.title = title
         item.description = description
         db.session.commit()
@@ -177,6 +182,8 @@ def complete_task():
                 item.completed = True
                 db.session.commit()
                 db.session.close()
+                flash(f'Task completed!', category='success')
+                return redirect(url_for('user_page'))
             except Exception as error:
                 print(error.__cause__)
         
